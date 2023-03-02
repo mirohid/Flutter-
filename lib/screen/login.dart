@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../model/loginModel.dart';
 import 'SecondPage.dart';
+import '../drawerOption/drawer.dart';
 class login_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,19 +21,24 @@ class login_home extends StatelessWidget {
 
   final username = TextEditingController();
   final password = TextEditingController();
+
   _loginScreen(BuildContext context)async {
     var url = Uri.parse("http://65.0.85.5/Auth/Login");
 
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'userName': username.text, 'password':password.text})
-
+      body: jsonEncode(
+        {
+          'userName': username.text, 
+          'password':password.text
+          })
     );
 
     if(response.statusCode == 200){
       var data =  loginModel.fromJson(jsonDecode(response.body));
       print(data);
+      
       Navigator.push(
         context,
         MaterialPageRoute(
